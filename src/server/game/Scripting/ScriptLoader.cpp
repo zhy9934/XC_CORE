@@ -704,6 +704,9 @@ void AddSC_outdoorpvp_zm();
 void AddSC_chat_log();
 void AddSC_action_ip_logger();
 
+//Custom
+void AddSC_npc_teleporter();
+void AddSC_npc_morph();
 #endif
 
 void AddScripts()
@@ -1454,6 +1457,7 @@ void AddCustomScripts()
 {
 #ifdef SCRIPTS
     /* This is where custom scripts should be added. */
-
+	AddSC_npc_teleporter();
+	AddSC_npc_morph();
 #endif
 }
