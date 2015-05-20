@@ -1,4 +1,4 @@
-/*
+﻿/*
  *
  * Copyright (C) 2013 Emu-Devstore <http://emu-devstore.com/>
  * Written by Teiby <http://www.teiby.de/>
@@ -157,7 +157,7 @@ public:
         sArenaTeamMgr->AddArenaTeam(arenaTeam);
         arenaTeam->AddMember(player->GetGUID());
 
-        ChatHandler(player->GetSession()).SendSysMessage("1v1 Arenateam successful created!");
+		ChatHandler(player->GetSession()).SendSysMessage(sObjectMgr->GBKToUtf8("1v1竞技场队伍创建成功！"));
 
         return true;
     }
@@ -170,29 +170,29 @@ public:
 
         if(sWorld->getBoolConfig(CONFIG_ARENA_1V1_ENABLE) == false)
         {
-            ChatHandler(player->GetSession()).SendSysMessage("1v1 disabled!");
+			ChatHandler(player->GetSession()).SendSysMessage(sObjectMgr->GBKToUtf8("1v1 不可用！"));
             return true;
         }
 
         if(player->InBattlegroundQueueForBattlegroundQueueType(BATTLEGROUND_QUEUE_5v5))
-                player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_CHAT, "Leave queue 1v1 Arena", GOSSIP_SENDER_MAIN, 3, "Are you sure?", 0, false);
+			player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_CHAT, sObjectMgr->GBKToUtf8("离开队列"), GOSSIP_SENDER_MAIN, 3, sObjectMgr->GBKToUtf8("确定要离开队列吗？"), 0, false);
         else
-            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Sign up 1v1 Arena (unrated)", GOSSIP_SENDER_MAIN, 20);
+			player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, sObjectMgr->GBKToUtf8("加入1v1竞技场练习赛队列"), GOSSIP_SENDER_MAIN, 20);
 
         if(player->GetArenaTeamId(ArenaTeam::GetSlotByType(ARENA_TEAM_5v5)) == 0)
-            player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_CHAT, "Create new 1v1 Arenateam", GOSSIP_SENDER_MAIN, 1, "Create 1v1 arenateam?", sWorld->getIntConfig(CONFIG_ARENA_1V1_COSTS), false);
+			player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_CHAT, sObjectMgr->GBKToUtf8("创建新的1v1竞技场队伍"), GOSSIP_SENDER_MAIN, 1, sObjectMgr->GBKToUtf8("确定要创建1v1竞技场队伍吗？"), sWorld->getIntConfig(CONFIG_ARENA_1V1_COSTS), false);
         else
         {
             if(player->InBattlegroundQueueForBattlegroundQueueType(BATTLEGROUND_QUEUE_5v5) == false)
             {
-                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Sign up 1v1 Arena (rated)", GOSSIP_SENDER_MAIN, 2);
-                player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_CHAT, "Disband arenateam", GOSSIP_SENDER_MAIN, 5, "Are you sure?", 0, false);
+				player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, sObjectMgr->GBKToUtf8("加入1v1竞技场积分赛队列"), GOSSIP_SENDER_MAIN, 2);
+				player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_CHAT, sObjectMgr->GBKToUtf8("解散竞技场队伍"), GOSSIP_SENDER_MAIN, 5, sObjectMgr->GBKToUtf8("确定要解散竞技场队伍吗？"), 0, false);
             }
 
-            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Show statistics", GOSSIP_SENDER_MAIN, 4);
+			player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, sObjectMgr->GBKToUtf8("查看队伍数据"), GOSSIP_SENDER_MAIN, 4);
         }
 
-        player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Script Info", GOSSIP_SENDER_MAIN, 8);
+		player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, sObjectMgr->GBKToUtf8("脚本信息"), GOSSIP_SENDER_MAIN, 8);
         player->SEND_GOSSIP_MENU(68, me->GetGUID());
         return true;
     }
@@ -217,7 +217,7 @@ public:
                 }
                 else
                 {
-                    ChatHandler(player->GetSession()).PSendSysMessage("You need level %u+ to create an 1v1 arenateam.", sWorld->getIntConfig(CONFIG_ARENA_1V1_MIN_LEVEL));
+					ChatHandler(player->GetSession()).PSendSysMessage(sObjectMgr->GBKToUtf8("达到%u级才可以创建1v1竞技场队伍."), sWorld->getIntConfig(CONFIG_ARENA_1V1_MIN_LEVEL));
                     player->CLOSE_GOSSIP_MENU();
                     return true;
                 }
@@ -227,7 +227,7 @@ public:
         case 2: // Join Queue Arena (rated)
             {
                 if(Arena1v1CheckTalents(player) && JoinQueueArena(player, me, true) == false)
-                    ChatHandler(player->GetSession()).SendSysMessage("Something went wrong while join queue.");
+					ChatHandler(player->GetSession()).SendSysMessage(sObjectMgr->GBKToUtf8("加入队列时发生错误,请重试."));
 
                 player->CLOSE_GOSSIP_MENU();
                 return true;
@@ -237,7 +237,7 @@ public:
         case 20: // Join Queue Arena (unrated)
             {
                 if(Arena1v1CheckTalents(player) && JoinQueueArena(player, me, false) == false)
-                    ChatHandler(player->GetSession()).SendSysMessage("Something went wrong while join queue.");
+					ChatHandler(player->GetSession()).SendSysMessage(sObjectMgr->GBKToUtf8("加入队列时发生错误,请重试."));
 
                 player->CLOSE_GOSSIP_MENU();
                 return true;
@@ -260,12 +260,12 @@ public:
                 if(at)
                 {
                     std::stringstream s;
-                    s << "Rating: " << at->GetStats().Rating;
-                    s << "\nRank: " << at->GetStats().Rank;
-                    s << "\nSeason Games: " << at->GetStats().SeasonGames;
-                    s << "\nSeason Wins: " << at->GetStats().SeasonWins;
-                    s << "\nWeek Games: " << at->GetStats().WeekGames;
-                    s << "\nWeek Wins: " << at->GetStats().WeekWins;
+					s << sObjectMgr->GBKToUtf8("积分: ") << at->GetStats().Rating;
+					s << sObjectMgr->GBKToUtf8("\n排名: ") << at->GetStats().Rank;
+					s << sObjectMgr->GBKToUtf8("\n赛季场数: ") << at->GetStats().SeasonGames;
+					s << sObjectMgr->GBKToUtf8("\n赛季获胜数: ") << at->GetStats().SeasonWins;
+					s << sObjectMgr->GBKToUtf8("\n周场数: ") << at->GetStats().WeekGames;
+					s << sObjectMgr->GBKToUtf8("\n周获胜数: ") << at->GetStats().WeekWins;
 
                     ChatHandler(player->GetSession()).PSendSysMessage(s.str().c_str());
                 }
@@ -278,7 +278,7 @@ public:
                 WorldPacket Data;
                 Data << (uint32)player->GetArenaTeamId(ArenaTeam::GetSlotByType(ARENA_TEAM_5v5));
                 player->GetSession()->HandleArenaTeamLeaveOpcode(Data);
-                ChatHandler(player->GetSession()).SendSysMessage("Arenateam deleted!");
+				ChatHandler(player->GetSession()).SendSysMessage(sObjectMgr->GBKToUtf8("竞技场队伍已经解散."));
                 player->CLOSE_GOSSIP_MENU();
                 return true;
             }
@@ -286,10 +286,10 @@ public:
 
         case 8: // Script Info
             {
-                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Developer: Teiby", GOSSIP_SENDER_MAIN, uiAction);
-                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Website: www.teiby.de", GOSSIP_SENDER_MAIN, uiAction);
-                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Version: 2.1", GOSSIP_SENDER_MAIN, uiAction);
-                player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "<-- Back", GOSSIP_SENDER_MAIN, 7);
+				player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, sObjectMgr->GBKToUtf8("作者: Teiby, 汉化: 星辰"), GOSSIP_SENDER_MAIN, uiAction);
+				player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, sObjectMgr->GBKToUtf8("网址: https://github.com/zhy9934/XC_CORE"), GOSSIP_SENDER_MAIN, uiAction);
+				player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, sObjectMgr->GBKToUtf8("QQ群: 460878655"), GOSSIP_SENDER_MAIN, uiAction);
+				player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, sObjectMgr->GBKToUtf8("<-- 返回"), GOSSIP_SENDER_MAIN, 7);
                 player->SEND_GOSSIP_MENU(68, me->GetGUID());
                 return true;
             }
