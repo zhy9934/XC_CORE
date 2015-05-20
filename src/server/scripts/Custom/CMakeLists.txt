@@ -14,6 +14,7 @@ set(scripts_STAT_SRCS
   ${scripts_STAT_SRCS}
   Custom/xc_npc_morph.cpp
   Custom/xc_npc_teleporter.cpp
+  Custom/npc_arena1v1.cpp
 #  ${sources_Custom}
 )
 

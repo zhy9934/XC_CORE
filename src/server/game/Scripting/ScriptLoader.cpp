@@ -691,6 +691,8 @@ void AddSC_script_bot_commands();
 //advanced
 //void AddSC_BotQuests_chapter1();
 //end Bots
+// 1v1 Arena
+void AddSC_npc_1v1arena();
 
 // outdoor pvp
 void AddSC_outdoorpvp_ep();
@@ -1459,5 +1461,7 @@ void AddCustomScripts()
     /* This is where custom scripts should be added. */
 	AddSC_npc_teleporter();
 	AddSC_npc_morph();
+	// 1v1 Arena
+    AddSC_npc_1v1arena();
 #endif
 }
