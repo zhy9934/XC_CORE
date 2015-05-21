@@ -2314,7 +2314,15 @@ Wintergrasp.CrashRestartTimer = 10
 
 #
 ###################################################################################################
+#
+# CROSSFACTION BG CONFIG
+#
+#    CrossfactionBG.enable = 1 - Mixed battleground enabled.
+#    CrossfactionBG.enable = 0 - Mixed battleground disabled.
 
+CrossfactionBG.enable = 1
+
+#
 ###################################################################################################
 # ARENA CONFIG
 #
