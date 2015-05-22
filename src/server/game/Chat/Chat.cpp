@@ -34,9 +34,6 @@
 #include "UpdateMask.h"
 #include "ScriptMgr.h"
 #include "ChatLink.h"
-#ifdef ELUNA
-#include "LuaEngine.h"
-#endif
 
 bool ChatHandler::load_command_table = true;
 
@@ -290,10 +287,6 @@ bool ChatHandler::ExecuteCommandInTable(ChatCommand* table, const char* text, st
         {
             if (!ExecuteCommandInTable(table[i].ChildCommands, text, fullcmd))
             {
-#ifdef ELUNA
-                if (!sEluna->OnCommand(GetSession() ? GetSession()->GetPlayer() : NULL, oldtext))
-                    return true;
-#endif
 
                 if (text[0] != '\0')
                     SendSysMessage(LANG_NO_SUBCMD);
@@ -441,10 +434,6 @@ bool ChatHandler::ParseCommands(char const* text)
 
     if (!ExecuteCommandInTable(getCommandTable(), text, fullcmd))
     {
-#ifdef ELUNA
-        if (!sEluna->OnCommand(GetSession() ? GetSession()->GetPlayer() : NULL, text))
-            return true;
-#endif
 
         if (m_session && !m_session->HasPermission(rbac::RBAC_PERM_COMMANDS_NOTIFY_COMMAND_NOT_FOUND_ERROR))
             return false;

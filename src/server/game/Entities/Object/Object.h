@@ -86,9 +86,6 @@ class UpdateData;
 class WorldObject;
 class WorldPacket;
 class ZoneScript;
-#ifdef ELUNA
-class ElunaEventProcessor;
-#endif
 
 typedef std::unordered_map<Player*, UpdateData> UpdateDataMapType;
 
@@ -737,10 +734,6 @@ class WorldObject : public Object, public WorldLocation
         virtual float GetStationaryY() const { return GetPositionY(); }
         virtual float GetStationaryZ() const { return GetPositionZ(); }
         virtual float GetStationaryO() const { return GetOrientation(); }
-
-#ifdef ELUNA
-        ElunaEventProcessor* elunaEvents;
-#endif
 
     protected:
         std::string m_name;

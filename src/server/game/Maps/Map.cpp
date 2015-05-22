@@ -35,10 +35,6 @@
 #include "Transport.h"
 #include "Vehicle.h"
 #include "VMapFactory.h"
-#ifdef ELUNA
-#include "LuaEngine.h"
-#endif
-
 //npcbot
 #include "botmgr.h"
 //end npcbot
@@ -2589,13 +2585,6 @@ void Map::DelayedUpdate(const uint32 t_diff)
 void Map::AddObjectToRemoveList(WorldObject* obj)
 {
     ASSERT(obj->GetMapId() == GetId() && obj->GetInstanceId() == GetInstanceId());
-
-#ifdef ELUNA
-    if (Creature* creature = obj->ToCreature())
-        sEluna->OnRemove(creature);
-    else if (GameObject* gameobject = obj->ToGameObject())
-        sEluna->OnRemove(gameobject);
-#endif
 
     obj->CleanupsBeforeDelete(false);                            // remove or simplify at least cross referenced links
 
